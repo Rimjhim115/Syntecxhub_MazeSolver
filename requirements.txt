@@ -1,0 +1,5 @@
+# Core algorithms + terminal UI have zero dependencies.
+# These are only needed for optional visualizers and testing.
+matplotlib>=3.7
+pygame>=2.5
+pytest>=7.4

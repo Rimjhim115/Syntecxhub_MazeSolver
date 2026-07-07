@@ -1,31 +1,11 @@
-from maze import Maze
-from astar import astar
-from maze_generator import generate_maze
+#!/usr/bin/env python3
+"""Thin entry point so `python main.py ...` works without installing the package."""
+import sys
+from pathlib import Path
 
-rows = int(input("Enter rows: "))
-cols = int(input("Enter columns: "))
-density = float(input("Enter obstacle density (0-1): "))
+sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-generated = generate_maze(rows, cols, density)
+from pathfinding.cli import main  # noqa: E402
 
-maze = Maze(generated)
-
-print("\nGenerated Maze\n")
-maze.print_maze()
-
-path = astar(maze)
-
-if path:
-
-    for row, col in path:
-
-        if maze.grid[row][col] not in ('S', 'G'):
-            maze.grid[row][col] = '*'
-
-    print("\nSolved Maze\n")
-    maze.print_maze()
-
-    print("\nShortest Path Length:", len(path) - 1)
-
-else:
-    print("No path found.")
+if __name__ == "__main__":
+    sys.exit(main())
