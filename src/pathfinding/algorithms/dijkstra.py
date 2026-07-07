@@ -10,13 +10,6 @@ from pathfinding.grid import Grid, Position
 
 
 class Dijkstra(PathfindingAlgorithm):
-    """
-    Dijkstra's algorithm -- equivalent to A* with a heuristic of 0.
-    Kept as its own class (rather than aliasing AStar) so the benchmark
-    output and README can honestly compare three distinct, named
-    algorithms rather than one algorithm under two names.
-    """
-
     name = "dijkstra"
 
     def solve(self, grid: Grid, start: Position, goal: Position, allow_diagonal: bool = False) -> SearchResult:

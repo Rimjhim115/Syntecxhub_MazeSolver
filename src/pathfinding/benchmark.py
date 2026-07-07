@@ -1,11 +1,4 @@
-"""
-Benchmark harness: run every registered algorithm on the *same* maze and
-report nodes expanded, path cost, and wall-clock time side by side.
 
-This is the single feature that most clearly separates "I implemented
-A*" from "I understand why A* is a good algorithm" -- it produces
-evidence, not just a claim.
-"""
 from __future__ import annotations
 
 from dataclasses import dataclass

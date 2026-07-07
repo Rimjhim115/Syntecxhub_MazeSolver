@@ -1,9 +1,4 @@
-"""
-Common interface every pathfinding algorithm implements.
 
-This is what lets `benchmark.py` and the CLI treat A*, BFS, and Dijkstra
-interchangeably -- the Strategy pattern applied to search algorithms.
-"""
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
@@ -31,7 +26,7 @@ class SearchResult:
 
 
 class PathfindingAlgorithm(ABC):
-    """Abstract base class -- subclass this to add a new algorithm."""
+   
 
     name: str = "abstract"
 
@@ -56,5 +51,4 @@ class PathfindingAlgorithm(ABC):
 
     @staticmethod
     def step_cost(a: Position, b: Position) -> float:
-        """1.0 for orthogonal moves, sqrt(2) for diagonal moves."""
         return 1.4142135623730951 if a[0] != b[0] and a[1] != b[1] else 1.0

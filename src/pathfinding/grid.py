@@ -1,10 +1,4 @@
-"""
-Core grid data structure shared by every algorithm and visualizer.
 
-Kept intentionally dependency-free (pure Python) so the algorithms package
-can be reused in a web backend, a notebook, or a game engine without
-dragging in Pygame/Matplotlib.
-"""
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -18,8 +12,6 @@ FREE = 0
 
 @dataclass
 class Grid:
-    """A 2D grid of cells. (0,0) is top-left; positions are (row, col)."""
-
     width: int
     height: int
     cells: list = field(default_factory=list)

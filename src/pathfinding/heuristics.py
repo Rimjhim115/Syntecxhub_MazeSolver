@@ -1,11 +1,4 @@
-"""
-Admissible heuristics for grid search.
 
-Each function has signature (a, b) -> float and estimates the cost from
-position a to position b. Keeping these as free functions (rather than
-methods) makes it trivial to plug a new one into A* without touching the
-algorithm itself -- see `get_heuristic`.
-"""
 from __future__ import annotations
 
 import math
@@ -33,7 +26,6 @@ def octile(a: Position, b: Position) -> float:
 
 
 def zero(a: Position, b: Position) -> float:
-    """A heuristic of 0 turns A* into Dijkstra's algorithm."""
     return 0.0
 
 

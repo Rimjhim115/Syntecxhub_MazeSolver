@@ -14,7 +14,6 @@ def make_open_grid(size=5):
 
 
 def make_blocked_grid():
-    # A fully sealed 3x3 grid: no path from (0,0) to (2,2)
     grid = Grid(width=3, height=3)
     grid.set_wall((0, 1))
     grid.set_wall((1, 0))

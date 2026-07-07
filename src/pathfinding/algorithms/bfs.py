@@ -9,11 +9,6 @@ from pathfinding.grid import Grid, Position
 
 
 class BFS(PathfindingAlgorithm):
-    """
-    Breadth-first search. Optimal only when every move has equal cost
-    (i.e. no diagonals). Included so the benchmark can show *why* A*
-    is preferred -- BFS explores far more nodes for the same result.
-    """
 
     name = "bfs"
 

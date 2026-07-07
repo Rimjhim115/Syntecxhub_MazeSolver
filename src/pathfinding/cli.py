@@ -1,4 +1,4 @@
-"""Command-line interface for the AI Pathfinding Simulator."""
+
 from __future__ import annotations
 
 import argparse

@@ -1,12 +1,4 @@
-"""
-Real-time animated Pygame visualizer.
 
-This is the "wow factor" demo -- a resizable window that plays back the
-algorithm's exploration frame-by-frame (frontier lighting up, then the
-final path drawn on top), rather than only showing a finished screenshot.
-Kept isolated in its own module so `pip install pathfinding-sim` without
-Pygame still works for the core algorithms + terminal UI.
-"""
 from __future__ import annotations
 
 from pathfinding.algorithms.base import SearchResult
@@ -16,12 +8,21 @@ COLORS = {
     "background": (30, 30, 30),
     "wall": (74, 74, 74),
     "free": (20, 20, 20),
+    "sand": (194, 178, 128),
+    "water": (59, 110, 165),
     "visited": (59, 110, 165),
     "path": (62, 207, 142),
     "start": (230, 57, 70),
     "goal": (255, 209, 102),
-    "grid_line": (45, 45, 45),
 }
+
+
+def _terrain_color(cost: float):
+    if cost >= 6:
+        return COLORS["water"]
+    if cost >= 3:
+        return COLORS["sand"]
+    return COLORS["free"]
 
 
 def run(
@@ -37,9 +38,14 @@ def run(
 
     pygame.init()
     width_px = grid.width * cell_size
-    height_px = grid.height * cell_size + 40
+    height_px = grid.height * cell_size + 60
     screen = pygame.display.set_mode((width_px, height_px))
     pygame.display.set_caption(f"AI Pathfinding Simulator — {result.algorithm_name.upper()}")
+
+    icon = pygame.Surface((32, 32))
+    icon.fill(COLORS["background"])
+    pygame.display.set_icon(icon)
+
     font = pygame.font.SysFont("consolas", 16)
     clock = pygame.time.Clock()
 
@@ -52,7 +58,12 @@ def run(
         screen.fill(COLORS["background"])
         for r in range(grid.height):
             for c in range(grid.width):
-                color = COLORS["wall"] if grid.cells[r][c] == 1 else COLORS["free"]
+                if grid.cells[r][c] == 1:
+                    color = COLORS["wall"]
+                elif hasattr(grid, "costs"):
+                    color = _terrain_color(grid.costs[r][c])
+                else:
+                    color = COLORS["free"]
                 draw_cell((r, c), color)
 
     revealed = 0
@@ -87,9 +98,22 @@ def run(
 
         status = "exploring..." if not finished else ("solved!" if result.success else "no path found")
         label = font.render(
-            f"{result.algorithm_name.upper()}  |  {status}  |  ESC to quit", True, (230, 230, 230)
+            f"{result.algorithm_name.upper()}  |  {status}  |  ESC or close window to quit",
+            True, (230, 230, 230)
         )
         screen.blit(label, (8, grid.height * cell_size + 8))
+
+        if not finished:
+            stats_text = f"Nodes explored: {len(visited_so_far)}"
+        else:
+            stats_text = (
+                f"Nodes: {result.nodes_expanded}  |  "
+                f"Path: {result.path_length}  |  "
+                f"Cost: {result.path_cost:.2f}  |  "
+                f"Time: {result.time_seconds * 1000:.2f} ms"
+            )
+        stats_label = font.render(stats_text, True, (150, 200, 170))
+        screen.blit(stats_label, (8, grid.height * cell_size + 30))
 
         pygame.display.flip()
         clock.tick(fps)

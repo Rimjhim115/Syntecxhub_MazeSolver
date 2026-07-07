@@ -11,14 +11,6 @@ from pathfinding.heuristics import Heuristic, get_heuristic
 
 
 class AStar(PathfindingAlgorithm):
-    """
-    Classic A* search: f(n) = g(n) + h(n).
-
-    Uses a binary heap as the open set and a monotonically increasing
-    tie-breaker counter so heap comparisons never fall back to comparing
-    tuples of positions (which would be slower and non-deterministic
-    across equal-priority ties).
-    """
 
     name = "astar"
 

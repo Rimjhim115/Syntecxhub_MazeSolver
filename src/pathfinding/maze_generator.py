@@ -1,16 +1,4 @@
-"""
-Maze generation strategies.
 
-Two distinct generators are provided on purpose:
-
-- `generate_random_maze`: scatters obstacles at a given density, then
-  verifies solvability with a BFS flood-fill and regenerates on failure.
-  Good for "messy real-world grid" demos.
-- `generate_perfect_maze`: recursive-backtracker maze carving. Produces
-  a maze with exactly one path between any two cells -- guaranteed
-  solvable by construction, no retry loop needed, and visually reads
-  as a "real" maze rather than random static.
-"""
 from __future__ import annotations
 
 import random
@@ -45,7 +33,6 @@ def generate_random_maze(
     seed: Optional[int] = None,
     max_attempts: int = 50,
 ) -> Tuple[Grid, Position, Position]:
-    """Scatter obstacles at random and retry until start->goal is solvable."""
     rng = random.Random(seed)
     start = start or (0, 0)
     goal = goal or (height - 1, width - 1)
@@ -74,12 +61,7 @@ def generate_perfect_maze(
     goal: Optional[Position] = None,
     seed: Optional[int] = None,
 ) -> Tuple[Grid, Position, Position]:
-    """
-    Recursive-backtracker maze carving on a grid of odd-sized cells.
-
-    The maze is carved into a full-wall grid, so it is solvable by
-    construction -- every open cell is reachable from every other.
-    """
+  
     rng = random.Random(seed)
     # Carve on a grid where walls sit between cells, then map back.
     grid = Grid(width=width, height=height, cells=[[WALL] * width for _ in range(height)])
@@ -110,7 +92,6 @@ def generate_perfect_maze(
 
 
 def _carve_shortest_gap(grid: Grid, start: Position, goal: Position) -> None:
-    """Fallback: BFS on a wall-permissive grid and clear the walls it used."""
     frontier = deque([start])
     came_from: dict = {}
     visited = {start}
